@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devika K G – Portfolio</title>
+  <!-- Swiper CSS for slider -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+   /* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #000;
+  color: #f0f0f0;
+}
+a {
+  text-decoration: none;
+  color: #ffcc00;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* Preloader */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#preloader .dot {
+  width: 16px;
+  height: 16px;
+  background: #ffcc00;
+  border-radius: 50%;
+  animation: pulse 1s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+  color: #fff;
+}
+nav .logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: #ffc107;
+}
+nav .menu {
+  display: flex;
+  gap: 1rem;
+}
+nav .menu a {
+  padding: .5rem;
+  color: #fff;
+}
+nav #nav-toggle {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #ffcc00;
+}
+nav .menu.active {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+/* Section Style */
+section {
+  padding: 100px 20px;
+  max-width: 900px;
+  margin: auto;
+  transition: background 0.3s ease;
+}
+section:hover {
+  background-color: #1a1a1a;
+  transition: background-color 0.3s ease;
+}
+header {
+  text-align: center;
+  margin-top: 60px;
+}
+h1 {
+  font-size: 2.5rem;
+  color: #ffcc00;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffcc00;
+}
+
+/* Home Section */
+#home {
+  padding: 100px 20px 60px;
+  text-align: center;
+  background: linear-gradient(to right, #0f0f0f, #1a1a1a);
+}
+.name {
+  font-size: 3.2rem;
+  font-weight: bold;
+  color: #ffcc00;
+  font-family: 'Cinzel', serif;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.title {
+  font-size: 1.3rem;
+  color: #ddd;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+.intro {
+  font-size: 1.1rem;
+  color: #ccc;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+  animation: fadeInUp 1.2s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ffcc00;
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.btn:hover {
+  background-color: #e6b800;
+  transform: translateY(-2px);
+}
+
+/* Skills Section */
+#skills ul {
+  list-style: none;
+  padding-left: 0;
+}
+#skills ul li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+/* Projects Section */
+.project-card {
+  background: #111;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+.project-card:hover {
+  background-color: #1f1f1f;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s forwards;
+}
+
+.project-card h3 {
+  margin-bottom: 10px;
+  color: #ffcc00;
+}
+.project-card p,
+.project-card ul {
+  font-size: 1rem;
+  color: #f0f0f0;
+}
+.project-card ul {
+  padding-left: 1.2rem;
+  margin-top: 10px;
+}
+.project-card ul li {
+  margin-bottom: 8px;
+  list-style-type: disc;
+}
+
+/* Resume Section */
+#resume {
+  padding: 60px 20px;
+  background: #111;
+}
+
+/* Contact Section */
+:root {
+  --peach: #ffe5b4; /* soft peach */
+  --peach-dark: #fcbf86;
+  --text-dark: #333;
+  --highlight: #e67300;
+}
+
+#contact {
+  background-color: var(--peach);
+  color: var(--text-dark);
+  padding: 80px 20px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#contact h2 {
+  color: var(--text-dark);
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+}
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.contact-info h3 {
+  margin-bottom: 15px;
+  color: var(--highlight);
+  font-size: 1.4rem;
+}
+
+.contact-info p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.contact-links {
+  flex: 1;
+  min-width: 250px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.contact-links li {
+  margin-bottom: 15px;
+}
+
+.contact-links a {
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-links a:hover {
+  color: var(--highlight);
+}
+
+.contact-links i {
+  font-size: 1.3rem;
+  color: var(--highlight);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin: 40px 0 20px;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader"><div class="dot"></div></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">Devika</div>
+    <button id="nav-toggle">☰</button>
+    <div class="menu">
+      <a href="#home">Home</a>
+  
+      <a href="#projects">Projects</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+   <section id="home" class="home-header">
+  <div class="name-title fade-in">
+    <h1 class="name">Devika K G</h1>
+    <p class="title">Backend Developer | Python & Flask Enthusiast</p>
+  </div>
+  <p class="intro fade-in">
+    Passionate about building scalable and secure backend systems. <br>
+    Skilled in Python, Flask, MySQL — currently diving deeper into Java.
+  </p>
+</section>
+<section id="skills">
+  <header>
+    <h2>Skills</h2>
+  </header>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>💻 Python, Flask </li>
+    <li>🛠 MySQL, REST APIs</li>
+    <li>⚙️ Problem Solving, Backend Development</li>
+    <li>🌐 Responsive Web Design</li>
+  </ul>
+</section>
+
+  <!-- Projects Section -->
+   
+<section id="projects">
+  <header>
+    <h2>Projects</h2>
+  </header>
+
+  <div class="project-card">
+    <h3>Tuition Centre Management Website</h3>
+    <p>
+      A web application built with <strong>Flask, MySQL, and JavaScript</strong> for managing student and admin data securely. Features include:
+    </p>
+    <ul>
+      <li>Role-based login for admins and students</li>
+      <li>Student detail management</li>
+      <li>Clean and responsive UI</li>
+    </ul>
+  </div>
+
+  <div class="project-card">
+    <h3>Inventory Management System</h3>
+    <p>
+      A full-stack app using <strong>Flask, MySQL, and JavaScript</strong> to manage inventory efficiently. Key features:
+    </p>
+    <ul>
+      <li>CRUD operations on products, suppliers, and sales</li>
+      <li>Dynamic forms with dropdowns</li>
+      <li>Responsive, user-friendly interface</li>
+    </ul>
+  </div>
+</section>
+
+<section id="resume" style="text-align: center; background: #0f0f0f; padding: 60px 20px;">
+  <h2>Resume</h2>
+  <p>Download my resume to know more about my experience and skills.</p>
+  <a href="Devika_resume.pdf" class="btn" download>Download Resume</a>
+</section>
+
+
+<section id="contact">
+  <h2>Contact Me</h2>
+  <ul class="contact-links">
+    <li>
+      <a href="mailto:devikakg0206@gmail.com">
+        <i class="fas fa-envelope"></i> devikakg0206@gmail.com
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/devika-k-g-a9a9ba297" target="_blank">
+        <i class="fab fa-linkedin"></i> linkedin
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/devikakg" target="_blank">
+        <i class="fab fa-github"></i> github
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+  <footer>&copy; 2025 Devika K G</footer>
+
+  <!-- Scripts -->
+    
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+  const menu = document.querySelector('.menu');
+
+  navToggle.addEventListener('click', () => {
+    menu.classList.toggle('active');
+  });
+    window.addEventListener('load', () => document.getElementById('preloader').style.display = 'none');
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.querySelector('nav').classList.toggle('active');
+    });
+
+    new Swiper('.swiper', {
+      loop: true,
+      pagination: { el: '.swiper-pagination' },
+      autoplay: { delay: 3000 },
+    });
+   
+  document.getElementById('nav-toggle').onclick = function() {
+    document.querySelector('nav .menu').classList.toggle('active');
+  };
+document.getElementById("nav-toggle").addEventListener("click", function () {
+    document.querySelector(".menu").classList.toggle("active");
+  });
+
+  </script>
+</body>
+</html>
