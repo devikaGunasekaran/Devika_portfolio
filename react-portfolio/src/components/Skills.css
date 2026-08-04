@@ -1,0 +1,202 @@
+.skills {
+    background: linear-gradient(135deg, #0a0612 0%, #150c25 50%, #24153d 100%);
+    position: relative;
+    overflow: hidden;
+    animation: sectionSlideUp 0.8s ease-out;
+    padding-bottom: 6rem;
+}
+
+.skills .container {
+    position: relative;
+    z-index: 1;
+}
+
+.skills::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 15% 25%, rgba(192, 132, 252, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(126, 34, 206, 0.12) 0%, transparent 45%);
+    animation: skillsBackdropMove 16s ease-in-out infinite;
+}
+
+@keyframes sectionSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.skills::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+    opacity: 0.5;
+    animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        opacity: 0.3;
+        box-shadow: 0 0 20px transparent;
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 30px rgba(192, 132, 252, 0.5);
+    }
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.skill-card {
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(192, 132, 252, 0.1);
+    background: linear-gradient(135deg, rgba(192, 132, 252, 0.02) 0%, rgba(126, 34, 206, 0.01) 100%);
+    animation: backgroundFlow 8s ease infinite;
+}
+
+@keyframes backgroundFlow {
+    0%, 100% {
+        background: linear-gradient(135deg, rgba(192, 132, 252, 0.02) 0%, rgba(126, 34, 206, 0.01) 100%);
+    }
+    50% {
+        background: linear-gradient(315deg, rgba(192, 132, 252, 0.04) 0%, rgba(126, 34, 206, 0.02) 100%);
+    }
+}
+
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--skill-color), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.skill-card:hover::before {
+    opacity: 1;
+}
+
+.skill-icon {
+    font-size: 4rem;
+    color: var(--skill-color);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    filter: drop-shadow(0 0 20px var(--skill-color));
+    animation: iconFloat 3s ease-in-out infinite, iconGlow 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes iconGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px var(--skill-color));
+    }
+    50% {
+        filter: drop-shadow(0 0 40px var(--skill-color)) brightness(1.2);
+    }
+}
+
+.skill-card:hover .skill-icon {
+    animation: iconFloat 2s ease-in-out infinite, iconGlow 1s ease-in-out infinite;
+}
+
+.skill-title {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.skill-description {
+    font-size: 1rem;
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+.skill-glow {
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    filter: blur(60px);
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.skill-card:hover .skill-glow {
+    opacity: 0.1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .skills-grid {
+        gap: 1.5rem;
+        padding: 0 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .skill-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .section-header {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes skillsBackdropMove {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(0, -20px, 0);
+    }
+}

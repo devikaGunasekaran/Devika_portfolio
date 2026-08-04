@@ -1,0 +1,62 @@
+.achievements {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #09060f 0%, #140b23 50%, #22133a 100%);
+}
+
+.achievements::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 20% 22%, rgba(192, 132, 252, 0.12) 0%, transparent 42%),
+                radial-gradient(circle at 78% 80%, rgba(126, 34, 206, 0.12) 0%, transparent 42%);
+}
+
+.achievements .container {
+    position: relative;
+    z-index: 1;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+}
+
+.achievement-card {
+    border-radius: 16px;
+    padding: 1.4rem;
+    border: 1px solid rgba(192, 132, 252, 0.22);
+}
+
+.achievement-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 0.9rem;
+    color: #f3e8ff;
+    background: rgba(126, 34, 206, 0.26);
+    border: 1px solid rgba(192, 132, 252, 0.4);
+}
+
+.achievement-card h3 {
+    margin: 0 0 0.5rem;
+    color: #f5edff;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.achievement-detail {
+    margin: 0 0 0.3rem;
+    color: rgba(221, 203, 247, 0.9);
+    font-size: 0.92rem;
+}
+
+.achievement-note {
+    margin: 0;
+    color: rgba(194, 156, 245, 0.96);
+    font-size: 0.9rem;
+}

@@ -1,0 +1,94 @@
+.experience {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0612 0%, #150c25 50%, #24153d 100%);
+}
+
+.experience::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 15% 20%, rgba(192, 132, 252, 0.14) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(126, 34, 206, 0.14) 0%, transparent 40%);
+    animation: expFlow 16s ease-in-out infinite;
+}
+
+.experience .container {
+    position: relative;
+    z-index: 1;
+}
+
+.experience-list {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.experience-card {
+    padding: 1.6rem;
+    border: 1px solid rgba(192, 132, 252, 0.2);
+    border-radius: 18px;
+}
+
+.experience-head {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.experience-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #f3e8ff;
+    font-size: 1.2rem;
+    background: rgba(126, 34, 206, 0.35);
+    border: 1px solid rgba(192, 132, 252, 0.35);
+}
+
+.experience-head h3 {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 1.12rem;
+}
+
+.experience-meta {
+    margin: 0.2rem 0 0;
+    color: rgba(214, 201, 241, 0.9);
+    font-size: 0.95rem;
+}
+
+.experience-extra {
+    margin: 0.3rem 0 0;
+    color: rgba(233, 225, 252, 0.95);
+    font-size: 0.9rem;
+}
+
+.experience-extra strong {
+    color: #e9d5ff;
+}
+
+.experience-points {
+    margin: 0.9rem 0 0;
+    padding-left: 1.2rem;
+    color: rgba(233, 225, 252, 0.94);
+}
+
+.experience-points li {
+    margin-bottom: 0.5rem;
+    line-height: 1.65;
+}
+
+@keyframes expFlow {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(0, -14px, 0);
+    }
+}
