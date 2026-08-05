@@ -82,7 +82,7 @@ router.post('/submit', async (req, res) => {
     const recentSubmission = await Contact.findOne({
       email,
       createdAt: {
-        $gte: new Date(Date.now() - 60000), // Last 1 minute
+        $gte: new Date(Date.now() - 5000), // Last 5 seconds (reduced for testing)
       },
     });
 

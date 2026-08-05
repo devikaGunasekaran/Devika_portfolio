@@ -1,11 +1,8 @@
+import 'dotenv/config'; // Must be the very first import to load env vars for other imports
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import contactRoutes from './routes/contact.js';
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 
@@ -27,12 +24,15 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow if no origin (postman), allowed exactly, or if it's a Vercel deployment
+      // Normalize by removing trailing slash
+      const normalizedOrigin = origin ? origin.replace(/\/$/, '') : origin;
+      const normalizedAllowed = allowedOrigins.map(o => o.replace(/\/$/, ''));
+
       if (
-        !origin || 
-        allowedOrigins.includes(origin) || 
-        origin.endsWith('.vercel.app') ||
-        origin === process.env.CORS_ORIGIN
+        !normalizedOrigin ||
+        normalizedAllowed.includes(normalizedOrigin) ||
+        normalizedOrigin.endsWith('.vercel.app') ||
+        normalizedOrigin === (process.env.CORS_ORIGIN || '').replace(/\/$/, '')
       ) {
         callback(null, true);
       } else {
