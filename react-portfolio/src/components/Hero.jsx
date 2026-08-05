@@ -33,33 +33,10 @@ const Hero = () => {
                 <span className="hero-orb hero-orb-2" />
                 <span className="hero-orb hero-orb-3" />
             </div>
-            {/* Animated Background Elements */}
-            <div className="hero-bg">
-                <motion.div
-                    className="bg-circle circle-1"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                    }}
-                />
-                <motion.div
-                    className="bg-circle circle-2"
-                    animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: 1,
-                    }}
-                />
+            {/* Background ambient circles — CSS animated, no JS */}
+            <div className="hero-bg" aria-hidden="true">
+                <div className="bg-circle circle-1" />
+                <div className="bg-circle circle-2" />
             </div>
 
             <motion.div

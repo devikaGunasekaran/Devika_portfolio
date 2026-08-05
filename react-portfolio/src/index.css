@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+/* ── Fonts: preconnect first, then async load ── */
+/* NOTE: moved to index.html as <link rel="preconnect"> + <link rel="stylesheet">
+   so they don't block CSS parsing. See index.html for font links. */
 
 * {
   margin: 0;
@@ -20,18 +22,18 @@
   --peach: #1b1130;
   --peach-dark: #29184a;
   --highlight: #9333ea;
-  
+
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #c084fc 0%, #a855f7 45%, #7e22ce 100%);
   --gradient-dark: linear-gradient(135deg, #09060f 0%, #120a1f 50%, #1b1130 100%);
   --gradient-glow: linear-gradient(135deg, rgba(192, 132, 252, 0.12) 0%, rgba(126, 34, 206, 0.12) 100%);
-  
+
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-glow: 0 0 20px rgba(192, 132, 252, 0.3);
-  
+
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
@@ -45,28 +47,18 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
+  /* Static gradient — no animation. Saves continuous GPU repaint on mobile. */
   background: linear-gradient(135deg, #09060f 0%, #120a1f 50%, #1b1130 100%);
-  background-size: 200% 200%;
   color: var(--text-light);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  animation: baseGradientShift 18s ease infinite;
-}
-
-@keyframes baseGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -75,7 +67,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--primary-gold);
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -122,55 +114,31 @@ a {
   text-align: center;
 }
 
-/* Glassmorphism Effect */
+/* Glassmorphism — static, no infinite animation */
 .glass {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: glassShimmer 3s ease-in-out infinite;
-}
-
-@keyframes glassShimmer {
-  0%, 100% {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  50% {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-  }
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glass:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(192, 132, 252, 0.3);
-  box-shadow: 0 8px 32px rgba(192, 132, 252, 0.15);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(192, 132, 252, 0.3);
+  box-shadow: 0 8px 32px rgba(192, 132, 252, 0.12);
 }
 
-/* Gradient Text */
+/* Gradient Text — static; hover triggers the shift */
 .gradient-text {
   background: var(--gradient-primary);
-  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradientFlow 3s ease infinite;
-  filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.3));
 }
 
-@keyframes gradientFlow {
-  0%, 100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
-/* Button Styles */
+/* Button Styles — no infinite pulse, just smooth hover */
 .btn {
   display: inline-block;
   padding: 14px 32px;
@@ -180,112 +148,40 @@ a {
   border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.3), 0 0 40px rgba(126, 34, 206, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.3);
   position: relative;
   overflow: hidden;
-  z-index: 1;
-  animation: buttonPulse 2s ease-in-out infinite;
-}
-
-@keyframes buttonPulse {
-  0%, 100% {
-    box-shadow: 0 4px 20px rgba(192, 132, 252, 0.3), 0 0 40px rgba(126, 34, 206, 0.1);
-  }
-  50% {
-    box-shadow: 0 6px 30px rgba(192, 132, 252, 0.5), 0 0 60px rgba(126, 34, 206, 0.2);
-  }
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #d8b4fe 0%, #9333ea 100%);
-  z-index: -1;
-  opacity: 0;
-  transition: all 0.4s ease;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 40px rgba(192, 132, 252, 0.6), 0 0 80px rgba(126, 34, 206, 0.4);
-  animation: none;
-}
-
-.btn:hover::before {
-  opacity: 1;
 }
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 8px 32px rgba(192, 132, 252, 0.5);
 }
 
-/* Animations */
+.btn:active {
+  transform: translateY(-1px);
+}
+
+/* Animations (used by framer-motion / entry animations) */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 /* Responsive */
@@ -293,9 +189,8 @@ a {
   .section {
     padding: 60px 20px;
   }
-  
+
   .container {
     padding: 0 15px;
   }
 }
-

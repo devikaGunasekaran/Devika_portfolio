@@ -44,9 +44,10 @@
 .hero-orb {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.28;
-    filter: blur(6px);
+    opacity: 0.25;
+    filter: blur(8px);
     animation: heroOrbFloat 18s ease-in-out infinite;
+    will-change: transform;
 }
 
 .hero-orb-1 {
@@ -127,64 +128,42 @@
 .bg-circle {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
+    /* Reduced from 80px — large blur values are very expensive on mobile */
+    filter: blur(60px);
     pointer-events: none;
+    /* Promote to compositor layer so animations don't trigger repaints */
+    will-change: transform, opacity;
 }
 
 .circle-1 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(192, 132, 252, 0.45) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, transparent 70%);
     top: -200px;
     right: -200px;
-    animation: float 20s ease-in-out infinite, pulse 4s ease-in-out infinite;
-    box-shadow: 0 0 100px rgba(192, 132, 252, 0.4);
+    animation: circleDrift1 20s ease-in-out infinite;
+    opacity: 0.4;
 }
 
 .circle-2 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(126, 34, 206, 0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(126, 34, 206, 0.35) 0%, transparent 70%);
     bottom: -250px;
     left: -250px;
-    animation: float-reverse 25s ease-in-out infinite, pulse 5s ease-in-out infinite 0.5s;
-    box-shadow: 0 0 120px rgba(126, 34, 206, 0.35);
+    animation: circleDrift2 25s ease-in-out infinite;
+    opacity: 0.35;
 }
 
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(50px, -50px);
-    }
+/* Compositor-friendly: only transform — no filter/blur changes */
+@keyframes circleDrift1 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(40px, -40px); }
 }
 
-@keyframes float-reverse {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(-50px, 50px);
-    }
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        filter: blur(80px) brightness(1);
-    }
-
-    50% {
-        filter: blur(90px) brightness(1.2);
-    }
+@keyframes circleDrift2 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(-40px, 40px); }
 }
 
 .hero-content {

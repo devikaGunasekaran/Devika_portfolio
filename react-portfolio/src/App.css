@@ -32,7 +32,7 @@ main {
   background: linear-gradient(135deg, #09060f 0%, #130b21 45%, #1f1435 100%);
 }
 
-/* Animated Background Elements */
+/* Static ambient glow — no animation, same visual effect */
 main::before {
   content: '';
   position: fixed;
@@ -40,28 +40,12 @@ main::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(192, 132, 252, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(126, 34, 206, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 65% 20%, rgba(236, 72, 153, 0.09) 0%, transparent 45%);
-  animation: gradientShift 15s ease infinite;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(192, 132, 252, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(126, 34, 206, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 65% 20%, rgba(236, 72, 153, 0.07) 0%, transparent 45%);
   pointer-events: none;
   z-index: 0;
-}
-
-@keyframes gradientShift {
-  0%, 100% {
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(192, 132, 252, 0.12) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(126, 34, 206, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 65% 20%, rgba(236, 72, 153, 0.09) 0%, transparent 45%);
-  }
-  50% {
-    background: 
-      radial-gradient(circle at 80% 50%, rgba(192, 132, 252, 0.14) 0%, transparent 50%),
-      radial-gradient(circle at 20% 80%, rgba(126, 34, 206, 0.12) 0%, transparent 50%),
-      radial-gradient(circle at 35% 20%, rgba(236, 72, 153, 0.11) 0%, transparent 45%);
-  }
 }
 
 /* Scroll to Top Button */
