@@ -26,11 +26,15 @@ const Navigation = () => {
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
+    // Close the mobile menu first, then scroll after a short delay
+    // so AnimatePresence unmount doesn't interrupt scrollIntoView.
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 50);
   };
 
   return (
@@ -75,6 +79,8 @@ const Navigation = () => {
           className="mobile-menu-toggle"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           whileTap={{ scale: 0.9 }}
+          aria-label="Toggle navigation menu"
+          aria-expanded={isMobileMenuOpen}
         >
           <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}>
             <span></span>
@@ -102,8 +108,8 @@ const Navigation = () => {
                 className="mobile-nav-link"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileTap={{ scale: 0.95 }}
+                transition={{ delay: index * 0.05 }}
+                whileTap={{ scale: 0.97 }}
               >
                 {item.name}
               </motion.a>
@@ -116,4 +122,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-

@@ -140,7 +140,7 @@
     width: 100%;
 }
 
-/* Mobile Menu Toggle */
+/* ── Mobile Menu Toggle ── */
 .mobile-menu-toggle {
     display: none;
     background: none;
@@ -148,6 +148,11 @@
     cursor: pointer;
     padding: 0.5rem;
     z-index: 1001;
+    /* Ensure tap target is big enough on mobile */
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    align-items: center;
 }
 
 .hamburger {
@@ -172,19 +177,23 @@
 
 .hamburger.open span:nth-child(2) {
     opacity: 0;
+    transform: translateX(-10px);
 }
 
 .hamburger.open span:nth-child(3) {
     transform: rotate(-45deg) translate(8px, -8px);
 }
 
-/* Mobile Menu */
+/* ── Mobile Dropdown Menu ── */
+/* NOTE: display is intentionally NOT set to none here.
+   Framer-motion's AnimatePresence conditionally mounts/unmounts the element.
+   We just need overflow:hidden so the height animation clips correctly. */
 .mobile-menu {
-    display: none;
+    display: flex;
     flex-direction: column;
+    overflow: hidden;
     background: rgba(12, 7, 20, 0.98);
-    padding: 1.5rem 2rem;
-    gap: 1rem;
+    gap: 0;
     border-top: 1px solid rgba(192, 132, 252, 0.2);
 }
 
@@ -192,27 +201,26 @@
     color: var(--text-light);
     font-size: 1.1rem;
     font-weight: 500;
-    padding: 0.8rem 0;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(192, 132, 252, 0.1);
     transition: all 0.3s ease;
+    display: block;
 }
 
-.mobile-nav-link:hover {
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
     color: var(--primary-gold);
-    padding-left: 1rem;
+    padding-left: 2rem;
+    background: rgba(192, 132, 252, 0.05);
 }
 
-/* Responsive */
+/* ── Responsive Breakpoint ── */
 @media (max-width: 768px) {
     .desktop-menu {
         display: none;
     }
 
     .mobile-menu-toggle {
-        display: block;
-    }
-
-    .mobile-menu {
         display: flex;
     }
 
@@ -224,4 +232,3 @@
         font-size: 1.5rem;
     }
 }
-
