@@ -136,7 +136,7 @@ router.post('/submit', async (req, res) => {
             <p>I will review your message and get back to you as soon as possible.</p>
             <br/>
             <p>Best regards,</p>
-            <p><strong>Devika K G</strong><br/>Backend Developer</p>
+            <p><strong>Devika K G</strong></p>
           </div>
         `,
       };
