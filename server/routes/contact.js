@@ -105,27 +105,54 @@ router.post('/submit', async (req, res) => {
 
     // Send Email Notification
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-      const mailOptions = {
+      // 1. Email to Admin (Devika)
+      const adminMailOptions = {
         from: process.env.SMTP_USER,
-        to: process.env.ADMIN_EMAIL || process.env.SMTP_USER, // Sending to yourself
+        to: process.env.ADMIN_EMAIL || process.env.SMTP_USER,
         subject: `New Portfolio Contact: ${name}`,
         html: `
-          <h3>New Contact Form Submission</h3>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <h2 style="color: #7e22ce;">New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+            <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin-top: 15px;">
+              <p style="margin-top: 0; font-weight: bold;">Message:</p>
+              <p style="white-space: pre-wrap;">${message}</p>
+            </div>
+          </div>
         `,
       };
 
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending email:', error);
-        } else {
-          console.log('Email sent:', info.response);
-        }
+      // 2. Auto-reply to the User
+      const userMailOptions = {
+        from: `"Devika K G" <${process.env.SMTP_USER}>`,
+        to: email, // Sending to the person who filled out the form
+        subject: `Thank you for reaching out!`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <h2 style="color: #7e22ce;">Hello ${name},</h2>
+            <p>Thank you for getting in touch! This is an automated response to confirm that I have received your message.</p>
+            <p>I will review your message and get back to you as soon as possible.</p>
+            <br/>
+            <p>Best regards,</p>
+            <p><strong>Devika K G</strong><br/>Backend Developer</p>
+          </div>
+        `,
+      };
+
+      // Send both emails asynchronously
+      Promise.all([
+        transporter.sendMail(adminMailOptions),
+        transporter.sendMail(userMailOptions)
+      ])
+      .then((info) => {
+        console.log('✅ Emails sent successfully to Admin and User');
+      })
+      .catch((error) => {
+        console.error('❌ Error sending emails:', error);
       });
+      
     } else {
       console.warn('SMTP_USER and SMTP_PASS are not set. Email notification skipped.');
     }
