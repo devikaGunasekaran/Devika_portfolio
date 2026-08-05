@@ -1,7 +1,19 @@
 import express from 'express';
 import Contact from '../models/Contact.js';
+import nodemailer from 'nodemailer';
 
 const router = express.Router();
+
+// Email Transporter setup
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: process.env.SMTP_PORT || 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
 // Get all contact submissions (admin route - no auth for now)
 router.get('/submissions', async (req, res) => {
@@ -90,6 +102,33 @@ router.post('/submit', async (req, res) => {
       ip: req.ip || req.connection.remoteAddress,
       userAgent: req.get('user-agent'),
     });
+
+    // Send Email Notification
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      const mailOptions = {
+        from: process.env.SMTP_USER,
+        to: process.env.ADMIN_EMAIL || process.env.SMTP_USER, // Sending to yourself
+        subject: `New Portfolio Contact: ${name}`,
+        html: `
+          <h3>New Contact Form Submission</h3>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message}</p>
+        `,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error sending email:', error);
+        } else {
+          console.log('Email sent:', info.response);
+        }
+      });
+    } else {
+      console.warn('SMTP_USER and SMTP_PASS are not set. Email notification skipped.');
+    }
 
     res.status(201).json({
       success: true,

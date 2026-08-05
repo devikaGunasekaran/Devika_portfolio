@@ -223,24 +223,7 @@
     letter-spacing: 2px;
     text-shadow: 0 0 24px rgba(168, 85, 247, 0.45),
         0 0 40px rgba(126, 34, 206, 0.25);
-    animation: glow 5s ease-in-out infinite;
     filter: drop-shadow(0 0 14px rgba(168, 85, 247, 0.35));
-}
-
-@keyframes glow {
-
-    0%,
-    100% {
-        text-shadow: 0 0 40px rgba(192, 132, 252, 0.5),
-            0 0 80px rgba(126, 34, 206, 0.2),
-            0 0 120px rgba(192, 132, 252, 0.1);
-    }
-
-    50% {
-        text-shadow: 0 0 60px rgba(192, 132, 252, 0.8),
-            0 0 100px rgba(126, 34, 206, 0.5),
-            0 0 150px rgba(192, 132, 252, 0.3);
-    }
 }
 
 .hero-roles {
@@ -301,7 +284,6 @@
     background: linear-gradient(135deg, rgba(126, 34, 206, 0.4) 0%, rgba(192, 132, 252, 0.4) 100%);
     filter: blur(80px);
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    animation: blobAnimate 12s ease-in-out infinite;
     mix-blend-mode: screen;
 }
 
@@ -313,40 +295,6 @@
     background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(20px);
-    animation: glowPulse 4s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: scale(1.2);
-        opacity: 0.8;
-    }
-}
-
-@keyframes blobAnimate {
-
-    0%,
-    100% {
-        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        transform: scale(1);
-    }
-
-    33% {
-        border-radius: 50% 50% 30% 70% / 50% 70% 30% 50%;
-        transform: scale(1.1);
-    }
-
-    66% {
-        border-radius: 70% 30% 50% 50% / 30% 50% 50% 70%;
-        transform: scale(0.9);
-    }
 }
 
 
