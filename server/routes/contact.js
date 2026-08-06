@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 const router = express.Router();
 
 // Resend Email Client setup
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 // Get all contact submissions (admin route - no auth for now)
 router.get('/submissions', async (req, res) => {
