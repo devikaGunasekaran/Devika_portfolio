@@ -1,19 +1,11 @@
 import express from 'express';
 import Contact from '../models/Contact.js';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 const router = express.Router();
 
-// Email Transporter setup
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// Resend Email Client setup
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Get all contact submissions (admin route - no auth for now)
 router.get('/submissions', async (req, res) => {
@@ -103,58 +95,55 @@ router.post('/submit', async (req, res) => {
       userAgent: req.get('user-agent'),
     });
 
-    // Send Email Notification
-    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-      // 1. Email to Admin (Devika)
-      const adminMailOptions = {
-        from: process.env.SMTP_USER,
-        to: process.env.ADMIN_EMAIL || process.env.SMTP_USER,
-        subject: `New Portfolio Contact: ${name}`,
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #7e22ce;">New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-            <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin-top: 15px;">
-              <p style="margin-top: 0; font-weight: bold;">Message:</p>
-              <p style="white-space: pre-wrap;">${message}</p>
-            </div>
-          </div>
-        `,
-      };
-
-      // 2. Auto-reply to the User
-      const userMailOptions = {
-        from: `"Devika K G" <${process.env.SMTP_USER}>`,
-        to: email, // Sending to the person who filled out the form
-        subject: `Thank you for reaching out!`,
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #7e22ce;">Hello ${name},</h2>
-            <p>Thank you for getting in touch! This is an automated response to confirm that I have received your message.</p>
-            <p>I will review your message and get back to you as soon as possible.</p>
-            <br/>
-            <p>Best regards,</p>
-            <p><strong>Devika K G</strong></p>
-          </div>
-        `,
-      };
+    // Send Email Notification via Resend
+    if (process.env.RESEND_API_KEY) {
+      const adminEmail = process.env.ADMIN_EMAIL || 'devikakg07@gmail.com';
 
       // Send both emails asynchronously
       Promise.all([
-        transporter.sendMail(adminMailOptions),
-        transporter.sendMail(userMailOptions)
+        // 1. Email to Admin (Devika)
+        resend.emails.send({
+          from: 'Portfolio Contact <onboarding@resend.dev>',
+          to: adminEmail,
+          subject: `New Portfolio Contact: ${name}`,
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <h2 style="color: #7e22ce;">New Contact Form Submission</h2>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+              <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin-top: 15px;">
+                <p style="margin-top: 0; font-weight: bold;">Message:</p>
+                <p style="white-space: pre-wrap;">${message}</p>
+              </div>
+            </div>
+          `,
+        }),
+        // 2. Auto-reply to the User
+        resend.emails.send({
+          from: 'Devika K G <onboarding@resend.dev>',
+          to: email,
+          subject: `Thank you for reaching out!`,
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <h2 style="color: #7e22ce;">Hello ${name},</h2>
+              <p>Thank you for getting in touch! This is an automated response to confirm that I have received your message.</p>
+              <p>I will review your message and get back to you as soon as possible.</p>
+              <br/>
+              <p>Best regards,</p>
+              <p><strong>Devika K G</strong></p>
+            </div>
+          `,
+        }),
       ])
-      .then((info) => {
-        console.log('✅ Emails sent successfully to Admin and User');
+      .then(() => {
+        console.log('✅ Emails sent successfully via Resend to Admin and User');
       })
       .catch((error) => {
-        console.error('❌ Error sending emails:', error);
+        console.error('❌ Error sending emails via Resend:', error);
       });
-      
     } else {
-      console.warn('SMTP_USER and SMTP_PASS are not set. Email notification skipped.');
+      console.warn('RESEND_API_KEY is not set. Email notification skipped.');
     }
 
     res.status(201).json({
